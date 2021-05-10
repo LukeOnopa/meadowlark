@@ -1,4 +1,5 @@
 const express = require('express');
+const fortune = require('./lib/fortune');
 
 const app = express();
 
@@ -9,14 +10,6 @@ app.set('view engine', 'handlebars');
 
 app.set('port', process.env.PORT || 3000);
 
-var fortunes = [
-    "Conquer your fears or they will conquer you.",
-    "Rivers need springs.",
-    "Do not fear what you don't know",
-    "You will have a pleasant surprise.",
-    "Whenever possible, keep it simple."
-];
-
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', ((req, res) => {
@@ -24,8 +17,7 @@ app.get('/', ((req, res) => {
 }));
 
 app.get('/about', ((req, res) => {
-    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-    res.render('about', { fortune: randomFortune });
+    res.render('about', { fortune: fortune.getFortune() });
 }));
 
 app.use((req, res, next) => {
